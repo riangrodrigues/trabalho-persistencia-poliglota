@@ -1,0 +1,52 @@
+
+========================================================================
+DEMONSTRAÇÃO NEO4J — REQUISITO R6 (RECOMENDAÇÕES POR GRAFO)
+========================================================================
+Conectando em: bolt://localhost:7687 (usuário: neo4j)
+Resumo do grafo: {'usuarios': 10, 'conteudos': 15, 'visualizacoes': 45}
+
+--- [OP 1] R6 Parte 1: 'Quem assistiu Interestelar também assistiu...' ---
+tambem_assistiram         | tipo  | usuarios_em_comum | nota_media
+--------------------------+-------+-------------------+-----------
+A Origem                  | filme | 4                 | 4.75      
+Severance                 | serie | 2                 | 5.0       
+Mad Max: Estrada da Fúria | filme | 2                 | 5.0       
+Dark                      | serie | 2                 | 5.0       
+Matrix                    | filme | 2                 | 5.0       
+Blade Runner 2049         | filme | 2                 | 4.5       
+(6 linhas)
+
+--- [OP 2] R6 Parte 2: 'Usuários com gosto parecido com o de João Silva assistiram isto' ---
+recomendacao              | tipo         | recomendado_por_qtd | usuarios_similares                  | nota_media
+--------------------------+--------------+---------------------+-------------------------------------+-----------
+Severance                 | serie        | 2                   | ['Gabriel Rocha', 'Maria Oliveira'] | 5.0       
+Dark                      | serie        | 2                   | ['Gabriel Rocha', 'Maria Oliveira'] | 5.0       
+Blade Runner 2049         | filme        | 2                   | ['Maria Oliveira', 'Pedro Santos']  | 4.5       
+Cosmos: Mundos Possíveis  | documentario | 1                   | ['Gabriel Rocha']                   | 5.0       
+Mad Max: Estrada da Fúria | filme        | 1                   | ['Pedro Santos']                    | 5.0       
+Matrix                    | filme        | 1                   | ['Pedro Santos']                    | 5.0       
+(6 linhas)
+
+--- [OP 3] Ranking de afinidade: usuários com gosto mais parecido com João Silva ---
+usuario_similar | titulos_em_comum | conteudos_compartilhados                          
+----------------+------------------+---------------------------------------------------
+Gabriel Rocha   | 3                | ['O Dilema das Redes', 'A Origem', 'Interestelar']
+Maria Oliveira  | 3                | ['Stranger Things', 'A Origem', 'Interestelar']   
+Pedro Santos    | 2                | ['A Origem', 'Interestelar']                      
+Carla Mendes    | 1                | ['O Dilema das Redes']                            
+Ana Costa       | 1                | ['O Dilema das Redes']                            
+Lucas Pereira   | 1                | ['Stranger Things']                               
+Rafael Souza    | 1                | ['Interestelar']                                  
+(7 linhas)
+
+--- [OP 4] Recomendação híbrida por gênero + nota média para Ana Costa ---
+recomendacao_para_ana | tipo  | generos_em_comum | nota_media
+----------------------+-------+------------------+-----------
+Breaking Bad          | serie | ['Drama']        | 5.0       
+Dark                  | serie | ['Suspense']     | 4.75      
+The Last of Us        | serie | ['Drama']        | 4.67      
+Severance             | serie | ['Suspense']     | 4.67      
+Interestelar          | filme | ['Drama']        | 4.6       
+(5 linhas)
+
+=== [Neo4j] Demonstração R6 concluída com sucesso! ===

@@ -1,0 +1,290 @@
+
+========================================================================
+DEMONSTRAÇÃO MONGODB — REQUISITO R2 (CATÁLOGO FLEXÍVEL)
+========================================================================
+Conectando em: mongodb://localhost:27017/ (banco: streaming)
+Contagem atual -> estudios: 5, conteudos: 15, avaliacoes: 10
+
+--- [OP 1] Documentos polimórficos na coleção 'conteudos' (1 por tipo) ---
+
+>> Tipo: FILME
+{
+  "_id": "22222222-2222-4222-8222-000000000001",
+  "titulo": "Interestelar",
+  "tipo": "filme",
+  "generos": [
+    "Ficção Científica",
+    "Drama"
+  ],
+  "estudio_id": "33333333-3333-4333-8333-000000000001",
+  "atributos_exclusivos": {
+    "duracao_minutos": 169,
+    "diretor": "Christopher Nolan",
+    "ano_lancamento": 2014,
+    "elenco": [
+      "Matthew McConaughey",
+      "Anne Hathaway",
+      "Jessica Chastain"
+    ]
+  }
+}
+
+>> Tipo: SERIE
+{
+  "_id": "22222222-2222-4222-8222-000000000007",
+  "titulo": "Stranger Things",
+  "tipo": "serie",
+  "generos": [
+    "Suspense",
+    "Ficção Científica"
+  ],
+  "estudio_id": "33333333-3333-4333-8333-000000000002",
+  "atributos_exclusivos": {
+    "criador": "Irmãos Duffer",
+    "em_andamento": false,
+    "total_temporadas": 2,
+    "temporadas": [
+      {
+        "numero": 1,
+        "ano": 2016,
+        "episodios": [
+          {
+            "numero": 1,
+            "titulo": "O Desaparecimento de Will Byers",
+            "duracao_minutos": 49
+          },
+          {
+            "numero": 2,
+            "titulo": "A Estranha na Rua Maple",
+            "duracao_minutos": 55
+          },
+          {
+            "numero": 3,
+            "titulo": "Caramba",
+            "duracao_minutos": 52
+          }
+        ]
+      },
+      {
+        "numero": 2,
+        "ano": 2017,
+        "episodios": [
+          {
+            "numero": 1,
+            "titulo": "MADMAX",
+            "duracao_minutos": 48
+          },
+          {
+            "numero": 2,
+            "titulo": "Gostosuras ou Travessuras, Aberração",
+            "duracao_minutos": 56
+          }
+        ]
+      }
+    ]
+  }
+}
+
+>> Tipo: DOCUMENTARIO
+{
+  "_id": "22222222-2222-4222-8222-000000000012",
+  "titulo": "Nosso Planeta",
+  "tipo": "documentario",
+  "generos": [
+    "Documentário",
+    "Natureza"
+  ],
+  "estudio_id": "33333333-3333-4333-8333-000000000004",
+  "atributos_exclusivos": {
+    "tema": "Biodiversidade e mudanças climáticas",
+    "ano_producao": 2019,
+    "narrador": "David Attenborough",
+    "formato": "minisserie"
+  }
+}
+
+--- [OP 2] Séries com episódios embutidos de duração >= 60 min (sem JOIN) ---
+[
+  {
+    "titulo": "Dark",
+    "criador": "Baran bo Odar e Jantje Friese",
+    "total_temporadas": 3,
+    "episodios_60_min_ou_mais": [
+      {
+        "temporada": 3,
+        "episodio": 1,
+        "titulo": "Déjà-vu",
+        "duracao_minutos": 62
+      },
+      {
+        "temporada": 3,
+        "episodio": 2,
+        "titulo": "O Paraíso",
+        "duracao_minutos": 73
+      }
+    ]
+  },
+  {
+    "titulo": "The Last of Us",
+    "criador": "Craig Mazin e Neil Druckmann",
+    "total_temporadas": 2,
+    "episodios_60_min_ou_mais": [
+      {
+        "temporada": 1,
+        "episodio": 1,
+        "titulo": "Quando Estiver Perdido na Escuridão",
+        "duracao_minutos": 81
+      }
+    ]
+  }
+]
+
+--- [OP 3] Agregação com referências ($lookup em estudios e avaliacoes) ---
+[
+  {
+    "titulo": "A Origem",
+    "tipo": "filme",
+    "estudio": "Warner Bros. Pictures",
+    "total_avaliacoes": 1,
+    "nota_media": 5.0
+  },
+  {
+    "titulo": "Blade Runner 2049",
+    "tipo": "filme",
+    "estudio": "Warner Bros. Pictures",
+    "total_avaliacoes": 1,
+    "nota_media": 5.0
+  },
+  {
+    "titulo": "Dark",
+    "tipo": "serie",
+    "estudio": "UniStream Originals",
+    "total_avaliacoes": 1,
+    "nota_media": 5.0
+  },
+  {
+    "titulo": "Nosso Planeta",
+    "tipo": "documentario",
+    "estudio": "National Geographic Documentary Films",
+    "total_avaliacoes": 1,
+    "nota_media": 5.0
+  },
+  {
+    "titulo": "Severance",
+    "tipo": "serie",
+    "estudio": "UniStream Originals",
+    "total_avaliacoes": 1,
+    "nota_media": 5.0
+  },
+  {
+    "titulo": "Interestelar",
+    "tipo": "filme",
+    "estudio": "Warner Bros. Pictures",
+    "total_avaliacoes": 3,
+    "nota_media": 4.67
+  },
+  {
+    "titulo": "O Dilema das Redes",
+    "tipo": "documentario",
+    "estudio": "UniStream Originals",
+    "total_avaliacoes": 1,
+    "nota_media": 4.0
+  },
+  {
+    "titulo": "Stranger Things",
+    "tipo": "serie",
+    "estudio": "UniStream Originals",
+    "total_avaliacoes": 1,
+    "nota_media": 4.0
+  }
+]
+
+--- [OP 4] Evolução dinâmica de schema (novos atributos apenas em Interestelar) ---
+{
+  "_id": "22222222-2222-4222-8222-000000000001",
+  "titulo": "Interestelar",
+  "tipo": "filme",
+  "duracao_minutos": 169,
+  "diretor": "Christopher Nolan",
+  "audio_dolby_atmos": true,
+  "resolucao_imax": true
+}
+
+--- [OP 5] Conteúdos do gênero 'ficcao-cientifica' (dados para cache R8 no Redis) ---
+Total encontrado no gênero 'ficcao-cientifica': 8
+[
+  {
+    "_id": "22222222-2222-4222-8222-000000000002",
+    "titulo": "A Origem",
+    "tipo": "filme",
+    "generos": [
+      "Ficção Científica",
+      "Ação"
+    ]
+  },
+  {
+    "_id": "22222222-2222-4222-8222-000000000003",
+    "titulo": "Blade Runner 2049",
+    "tipo": "filme",
+    "generos": [
+      "Ficção Científica",
+      "Suspense"
+    ]
+  },
+  {
+    "_id": "22222222-2222-4222-8222-000000000008",
+    "titulo": "Dark",
+    "tipo": "serie",
+    "generos": [
+      "Suspense",
+      "Ficção Científica"
+    ]
+  },
+  {
+    "_id": "22222222-2222-4222-8222-000000000001",
+    "titulo": "Interestelar",
+    "tipo": "filme",
+    "generos": [
+      "Ficção Científica",
+      "Drama"
+    ]
+  },
+  {
+    "_id": "22222222-2222-4222-8222-000000000006",
+    "titulo": "Mad Max: Estrada da Fúria",
+    "tipo": "filme",
+    "generos": [
+      "Ação",
+      "Ficção Científica"
+    ]
+  },
+  {
+    "_id": "22222222-2222-4222-8222-000000000004",
+    "titulo": "Matrix",
+    "tipo": "filme",
+    "generos": [
+      "Ficção Científica",
+      "Ação"
+    ]
+  },
+  {
+    "_id": "22222222-2222-4222-8222-000000000010",
+    "titulo": "Severance",
+    "tipo": "serie",
+    "generos": [
+      "Suspense",
+      "Ficção Científica"
+    ]
+  },
+  {
+    "_id": "22222222-2222-4222-8222-000000000007",
+    "titulo": "Stranger Things",
+    "tipo": "serie",
+    "generos": [
+      "Suspense",
+      "Ficção Científica"
+    ]
+  }
+]
+
+=== [MongoDB] Demonstração R2 concluída com sucesso! ===
