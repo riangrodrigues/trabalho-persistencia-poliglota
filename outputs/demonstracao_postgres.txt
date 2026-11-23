@@ -1,0 +1,17 @@
+BEGIN
+INSERT 0 0
+INSERT 0 0
+COMMIT
+    demonstracao    | status | acesso_liberado | valor | cobranca 
+--------------------+--------+-----------------+-------+----------
+ R1 - caso aprovado | ativa  | t               | 55.90 | aprovada
+(1 row)
+
+DO
+      demonstracao      | assinatura_persistiu 
+------------------------+----------------------
+ R1 - rollback simulado | f
+(1 row)
+
+
+psql:/scripts/postgres/demonstracao.sql:24: NOTICE:  Cobrança inválida; alterações do bloco foram revertidas.

@@ -165,8 +165,13 @@ def run_optional_redis() -> str:
         ]
         capture = OUTPUTS_DIR / "demonstracao_redis.txt" if stage == "demonstracao" else None
         print(f"\n>>> [Redis] Executando {filename}")
-        rc, _ = run_cmd(cmd, capture_to=capture)
-        if rc != 0:
+        rc, output = run_cmd(cmd, capture_to=capture)
+        redis_errors = any(
+            line.startswith("ERR ") or line == "Invalid argument(s)"
+            for line in output.splitlines()
+        )
+        if rc != 0 or redis_errors:
+            print(f"[ERRO] Falha em Redis/{filename}")
             return "FAIL"
     return "PASS"
 

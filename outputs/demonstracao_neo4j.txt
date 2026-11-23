@@ -9,10 +9,10 @@ Resumo do grafo: {'usuarios': 10, 'conteudos': 15, 'visualizacoes': 45}
 tambem_assistiram         | tipo  | usuarios_em_comum | nota_media
 --------------------------+-------+-------------------+-----------
 A Origem                  | filme | 4                 | 4.75      
-Severance                 | serie | 2                 | 5.0       
 Mad Max: Estrada da Fúria | filme | 2                 | 5.0       
-Dark                      | serie | 2                 | 5.0       
 Matrix                    | filme | 2                 | 5.0       
+Dark                      | serie | 2                 | 5.0       
+Severance                 | serie | 2                 | 5.0       
 Blade Runner 2049         | filme | 2                 | 4.5       
 (6 linhas)
 

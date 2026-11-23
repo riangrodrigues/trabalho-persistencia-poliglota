@@ -7,6 +7,8 @@ Conectando em: 127.0.0.1:9042 (keyspace: streaming)
 --- [OP 1] Histórico completo de João Silva em 2026-11 (eventos_por_usuario) ---
 evento_ts           | titulo_conteudo    | tipo_evento | posicao_segundos | dispositivo   
 --------------------+--------------------+-------------+------------------+---------------
+2026-11-21T15:00:00 | Dark               | play        | 0                | Smart TV      
+2026-11-21T15:00:00 | Dark               | play        | 0                | Smart TV      
 2026-11-19T23:30:00 | O Dilema das Redes | conclusao   | 5640             | Web           
 2026-11-19T22:45:00 | O Dilema das Redes | avanco      | 3000             | Web           
 2026-11-19T22:00:00 | O Dilema das Redes | play        | 0                | Web           
@@ -18,7 +20,7 @@ evento_ts           | titulo_conteudo    | tipo_evento | posicao_segundos | disp
 2026-11-12T20:10:00 | A Origem           | pause       | 4500             | Web           
 2026-11-12T19:35:00 | A Origem           | avanco      | 2400             | Web           
 2026-11-12T19:00:00 | A Origem           | play        | 0                | Web           
-(11 linhas)
+(13 linhas)
 
 --- [OP 2] Eventos de João Silva no dia 2026-11-18 (range na clustering key) ---
 evento_ts           | titulo_conteudo | tipo_evento | posicao_segundos | dispositivo   
@@ -45,10 +47,10 @@ evento_ts           | usuario_id                           | tipo_evento | posic
 evento_ts           | titulo_conteudo    | tipo_evento | posicao_segundos | dispositivo
 --------------------+--------------------+-------------+------------------+------------
 2026-11-21T15:00:00 | Dark               | play        | 0                | Smart TV   
+2026-11-21T15:00:00 | Dark               | play        | 0                | Smart TV   
+2026-11-21T15:00:00 | Dark               | play        | 0                | Smart TV   
 2026-11-19T23:30:00 | O Dilema das Redes | conclusao   | 5640             | Web        
 2026-11-19T22:45:00 | O Dilema das Redes | avanco      | 3000             | Web        
-2026-11-19T22:00:00 | O Dilema das Redes | play        | 0                | Web        
-2026-11-18T21:32:00 | Stranger Things    | conclusao   | 2940             | Smart TV   
 (5 linhas)
 
 === [Cassandra] Demonstração R5 concluída com sucesso! ===
